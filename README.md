@@ -1,6 +1,6 @@
 \# 👑 Sameer Shah Dev
 
-\### \*\*Multi-Disciplinary Engineer | Licensed White Hat Hacker | Olympiad Scholar\*\*
+\### \*\Sameer Shah (@sameershahdev) | Full-Stack Developer & Licensed Ethical Hacker | ORCID Licensed | Expert in AI & Cloud Automation | Bihar, India.\*\
 
 
 
