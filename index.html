@@ -20,6 +20,53 @@
     <meta property="twitter:title" content="sameershahdev | Sameer Shah - Full-Stack Developer">
     <meta property="twitter:description" content="Elite Full-Stack Developer & Licensed Ethical Hacker in Bihar. Building Secure Enterprise-grade Web Apps.">
     <meta property="twitter:image" content="logo.png">
+
+    <!-- Keywords & SEO -->
+    <meta name="keywords" content="Full-Stack Developer, Ethical Hacker, Web Development, Cloud Architecture, Serverless, Ramgarhwa, Bihar, India, Sameer Shah">
+    <meta name="author" content="Sameer Shah">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#020617">
+    <link rel="canonical" href="https://sameershahdev.me/">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Sameer Shah",
+        "url": "https://sameershahdev.me",
+        "image": "https://sameershahdev.me/logo.png",
+        "sameAs": [
+            "https://twitter.com/sameershahdev",
+            "https://instagram.com/sameershahdev",
+            "https://linkedin.com/in/sameershahdev",
+            "https://github.com/sameershahdev"
+        ],
+        "jobTitle": "Full-Stack Developer & Licensed Ethical Hacker",
+        "worksFor": {
+            "@type": "Organization",
+            "name": "sameershahdev"
+        },
+        "areaServed": "Ramgarhwa, Bihar, India",
+        "description": "Elite Full-Stack Developer & Licensed Ethical Hacker building secure enterprise-grade web applications"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://sameershahdev.me",
+        "name": "sameershahdev | Sameer Shah - Full-Stack Developer",
+        "description": "Official portfolio of Sameer Shah, Full-Stack Developer & Ethical Hacker in Bihar",
+        "potentialAction": {
+            "@type": "CommunicateAction",
+            "target": "https://wa.me/917321086174"
+        }
+    }
+    </script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -265,11 +312,16 @@
 
         /* Skill Bar Animation Styles */
         @keyframes fillBar {
-            from {
+            0% {
                 width: 0%;
+                opacity: 0.5;
             }
-            to {
+            50% {
+                opacity: 1;
+            }
+            100% {
                 width: var(--skill-level, 0%);
+                opacity: 1;
             }
         }
 
@@ -286,17 +338,17 @@
 
         .skill-item {
             opacity: 0;
-            animation: slideInLeft 0.6s ease-out forwards;
+            animation: slideInLeft 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        .skill-item:nth-child(1) { animation-delay: 0.1s; }
-        .skill-item:nth-child(2) { animation-delay: 0.2s; }
-        .skill-item:nth-child(3) { animation-delay: 0.3s; }
-        .skill-item:nth-child(4) { animation-delay: 0.4s; }
-        .skill-item:nth-child(5) { animation-delay: 0.5s; }
-        .skill-item:nth-child(6) { animation-delay: 0.6s; }
-        .skill-item:nth-child(7) { animation-delay: 0.7s; }
-        .skill-item:nth-child(8) { animation-delay: 0.8s; }
+        .skill-item:nth-child(1) { animation-delay: 0.2s; }
+        .skill-item:nth-child(2) { animation-delay: 0.4s; }
+        .skill-item:nth-child(3) { animation-delay: 0.6s; }
+        .skill-item:nth-child(4) { animation-delay: 0.8s; }
+        .skill-item:nth-child(5) { animation-delay: 1s; }
+        .skill-item:nth-child(6) { animation-delay: 1.2s; }
+        .skill-item:nth-child(7) { animation-delay: 1.4s; }
+        .skill-item:nth-child(8) { animation-delay: 1.6s; }
 
         .skill-bar-container {
             width: 100%;
@@ -310,7 +362,7 @@
         .skill-bar {
             height: 100%;
             border-radius: 3px;
-            animation: fillBar 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: fillBar 2.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
             position: relative;
             overflow: hidden;
         }
@@ -322,8 +374,40 @@
             left: 0;
             bottom: 0;
             right: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: shimmer 1.5s ease-in-out infinite;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2.8s ease-in-out 0.5s infinite;
+        }
+
+        /* Animated Social Icons */
+        @keyframes float-icon {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+        }
+
+        @keyframes glow-icon {
+            0%, 100% { filter: drop-shadow(0 0 0px currentColor); }
+            50% { filter: drop-shadow(0 0 8px currentColor); }
+        }
+
+        @keyframes scale-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .social-icon {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .social-icon:hover {
+            animation: float-icon 0.8s ease-in-out infinite, glow-icon 1.2s ease-in-out infinite;
+        }
+
+        .social-icon svg {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .social-icon:hover svg {
+            animation: scale-pulse 1.2s ease-in-out infinite;
         }
 
         .skill-label {
@@ -833,19 +917,36 @@
                             </div>
                         </div>
 
-                        <!-- Social Grid -->
+                        <!-- Social Grid with Animated Icons -->
                         <div class="grid grid-cols-4 gap-3">
-                            <a href="https://x.com/sameershahdev" target="_blank" class="glass h-14 flex items-center justify-center rounded-xl hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-all group">
-                                <svg viewBox="0 0 24 24" class="w-5 h-5 fill-slate-400 group-hover:fill-cyan-400 transition-colors"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+                            <!-- X/Twitter -->
+                            <a href="https://x.com/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon glass h-14 flex items-center justify-center rounded-xl hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-all group" title="Follow on X (Twitter)">
+                                <svg viewBox="0 0 24 24" class="w-5 h-5 fill-slate-400 group-hover:fill-cyan-400" aria-label="X">
+                                    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+                                </svg>
                             </a>
-                            <a href="https://instagram.com/sameershahdev" target="_blank" class="glass h-14 flex items-center justify-center rounded-xl hover:bg-purple-500/10 hover:border-purple-500/30 transition-all group">
-                                <svg viewBox="0 0 24 24" fill="none" class="w-5 h-5 stroke-slate-400 group-hover:stroke-purple-400 transition-colors" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                            <!-- Instagram -->
+                            <a href="https://instagram.com/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon glass h-14 flex items-center justify-center rounded-xl hover:bg-purple-500/10 hover:border-purple-500/30 transition-all group" title="Follow on Instagram">
+                                <svg viewBox="0 0 24 24" fill="none" class="w-5 h-5 stroke-slate-400 group-hover:stroke-purple-400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Instagram">
+                                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                                    <circle cx="17.5" cy="6.5" r="1.5"/>
+                                </svg>
                             </a>
-                            <a href="https://t.me/sameershahdev" target="_blank" class="glass h-14 flex items-center justify-center rounded-xl hover:bg-blue-500/10 hover:border-blue-500/30 transition-all group">
-                                <svg viewBox="0 0 24 24" fill="none" class="w-5 h-5 stroke-slate-400 group-hover:stroke-blue-400 transition-colors" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                            <!-- Telegram -->
+                            <a href="https://t.me/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon glass h-14 flex items-center justify-center rounded-xl hover:bg-blue-500/10 hover:border-blue-500/30 transition-all group" title="Chat on Telegram">
+                                <svg viewBox="0 0 24 24" fill="none" class="w-5 h-5 stroke-slate-400 group-hover:stroke-blue-400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Telegram">
+                                    <path d="m22 2-7 20-4-9-9-4Z"/>
+                                    <path d="M22 2 11 13"/>
+                                </svg>
                             </a>
-                            <a href="https://linkedin.com/in/sameershahdev" target="_blank" class="glass h-14 flex items-center justify-center rounded-xl hover:bg-blue-600/10 hover:border-blue-600/30 transition-all group">
-                                <svg viewBox="0 0 24 24" fill="none" class="w-5 h-5 stroke-slate-400 group-hover:stroke-blue-600 transition-colors" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                            <!-- LinkedIn -->
+                            <a href="https://linkedin.com/in/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon glass h-14 flex items-center justify-center rounded-xl hover:bg-blue-600/10 hover:border-blue-600/30 transition-all group" title="Connect on LinkedIn">
+                                <svg viewBox="0 0 24 24" fill="none" class="w-5 h-5 stroke-slate-400 group-hover:stroke-blue-600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="LinkedIn">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                    <rect width="4" height="12" x="2" y="9"/>
+                                    <circle cx="4" cy="4" r="2"/>
+                                </svg>
                             </a>
                         </div>
                     </div>
@@ -1132,7 +1233,7 @@
                 if (skillBar) {
                     skillBar.style.animation = 'none';
                     setTimeout(() => {
-                        skillBar.style.animation = `fillBar 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards`;
+                        skillBar.style.animation = `fillBar 2.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
                     }, 10);
                 }
             }, index * 150);
@@ -1146,7 +1247,7 @@
                     const skillBar = entry.target.querySelector('.skill-bar');
                     const level = entry.target.dataset.level;
                     if (skillBar) {
-                        skillBar.style.animation = `fillBar 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards`;
+                        skillBar.style.animation = `fillBar 2.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
                     }
                 }
             });
@@ -1154,6 +1255,16 @@
 
         skillItems.forEach(item => {
             skillObserver.observe(item);
+        });
+
+        // Animate social icons on hover with performance optimization
+        document.querySelectorAll('.social-icon').forEach(icon => {
+            icon.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            icon.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
         });
     </script>
 </body>
