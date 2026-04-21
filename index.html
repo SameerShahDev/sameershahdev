@@ -345,11 +345,11 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -371,16 +371,30 @@
         }
     </script>
     <style>
+        /* Critical CSS for faster rendering */
         * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
             scroll-behavior: smooth;
         }
 
         body {
             background-color: #020617;
-            color: #e2e8f0;
+            color: #f1f5f9;
             overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.5;
         }
 
+        /* Prevent CLS with height constraints */
+        section {
+            overflow: hidden;
+        }
+
+        /* Optimize scrollbar for minimal repaints */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -392,6 +406,15 @@
         ::-webkit-scrollbar-thumb {
             background: #06b6d4;
             border-radius: 3px;
+        }
+
+        /* Reduce animations that cause TBT */
+        .animate-float {
+            animation: none;
+        }
+
+        .animate-bounce {
+            animation: none;
         }
 
         ::-webkit-scrollbar-thumb:hover {
@@ -446,13 +469,13 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.2; }
         }
 
         @keyframes pulse-neon {
-            0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
-            50% { box-shadow: 0 0 35px rgba(6, 182, 212, 0.7), 0 0 60px rgba(6, 182, 212, 0.3); }
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.4; }
         }
 
         @keyframes blink-cursor {
@@ -758,7 +781,7 @@
                 <!-- Logo -->
                 <a href="#home" class="flex items-center gap-3 group">
                     <div class="relative w-11 h-11 transition-transform duration-500 group-hover:scale-105 overflow-hidden rounded-lg">
-                        <img src="logo.png" alt="sameershahdev Logo" class="w-full h-full object-contain filter drop-shadow-[0_0_10px_rgba(6,182,212,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(6,182,212,0.6)] transition-all">
+                        <img src="logo.png" alt="sameershahdev Logo" class="w-full h-full object-contain filter drop-shadow-[0_0_10px_rgba(6,182,212,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(6,182,212,0.6)] transition-all" loading="lazy" width="44" height="44">
                     </div>
                     <span class="font-bold text-sm tracking-widest text-slate-200 group-hover:text-cyan-400 transition-colors">
                         sameershahdev<span class="text-cyan-400">.</span>
@@ -795,10 +818,10 @@
 
                 <a href="#achievements" class="text-sm font-medium px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800/50">Achievements</a>
                 <a href="#contact" class="text-sm font-medium px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800/50">Contact</a>
-                <a href="#contact" class="btn-glow flex items-center justify-center gap-1.5 bg-gradient-to-r from-cyan-500 to-purple-600 text-white text-sm font-semibold px-4 py-2 rounded-full">
-                    <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                <button class="btn-glow flex items-center justify-center gap-1.5 bg-gradient-to-r from-cyan-500 to-purple-600 text-white text-sm font-semibold px-4 py-2 rounded-full" aria-label="Go to contact section">
+                    <i data-lucide="zap" class="w-3.5 h-3.5" aria-hidden="true"></i>
                     Hire Me
-                </a>
+                </button>
             </div>
         </div>
     </nav>
@@ -809,10 +832,10 @@
             <!-- Canvas Particles -->
             <canvas id="hero-canvas" class="absolute inset-0 pointer-events-none z-0"></canvas>
 
-            <!-- Floating Orbs -->
-            <div class="absolute rounded-full blur-3xl opacity-20 pointer-events-none w-96 h-96 bg-cyan-500 top-1/4 -left-48 animate-float"></div>
-            <div class="absolute rounded-full blur-3xl opacity-20 pointer-events-none w-80 h-80 bg-purple-600 bottom-1/4 -right-40 animate-float" style="animation-delay: 0.5s;"></div>
-            <div class="absolute rounded-full blur-3xl opacity-20 pointer-events-none w-64 h-64 bg-blue-500 top-3/4 left-1/4 animate-float" style="animation-delay: 0.3s;"></div>
+            <!-- Floating Orbs (will-change optimization) -->
+            <div class="absolute rounded-full blur-3xl opacity-20 pointer-events-none w-96 h-96 bg-cyan-500 top-1/4 -left-48" style="will-change: transform; transform: translateY(0px);"></div>
+            <div class="absolute rounded-full blur-3xl opacity-20 pointer-events-none w-80 h-80 bg-purple-600 bottom-1/4 -right-40" style="will-change: transform; animation-delay: 0.5s; transform: translateY(0px);"></div>
+            <div class="absolute rounded-full blur-3xl opacity-20 pointer-events-none w-64 h-64 bg-blue-500 top-3/4 left-1/4" style="will-change: transform; animation-delay: 0.3s; transform: translateY(0px);"></div>
 
             <!-- Content -->
             <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
@@ -844,12 +867,12 @@
                 <!-- CTA Buttons -->
                 <div class="flex flex-wrap items-center justify-center gap-4 mb-14 animate-slide-up" style="animation-delay: 0.4s;">
 
-                    <a href="https://wa.me/917321086174?text=Hello%20Sameer,%20I%20came%20across%20your%20portfolio%20at%20%40sameershahdev%20and%20I%27m%20impressed%20with%20your%20expertise.%20I%20would%20like%20to%20discuss%20a%20project%20requirement%20and%20potential%20service%20engagement." target="_blank" rel="noopener noreferrer" class="btn-glow flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold px-7 py-3 rounded-full shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all duration-300">
-                        <i data-lucide="message-square" class="w-4 h-4"></i>
+                    <a href="https://wa.me/917321086174?text=Hello%20Sameer,%20I%20came%20across%20your%20portfolio%20at%20%40sameershahdev%20and%20I%27m%20impressed%20with%20your%20expertise.%20I%20would%20like%20to%20discuss%20a%20project%20requirement%20and%20potential%20service%20engagement." target="_blank" rel="noopener noreferrer" class="btn-glow flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold px-7 py-3 rounded-full shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all duration-300" aria-label="Contact me on WhatsApp for secure consultation">
+                        <i data-lucide="message-square" class="w-4 h-4" aria-hidden="true"></i>
                         Secure Consultation
                     </a>
-                    <a href="#about" class="flex items-center gap-2 border border-slate-600 hover:border-cyan-500/50 text-slate-300 hover:text-cyan-400 font-semibold px-7 py-3 rounded-full transition-all duration-300 hover:bg-cyan-500/5">
-                        <i data-lucide="user" class="w-4 h-4"></i>
+                    <a href="#about" class="flex items-center gap-2 border border-slate-600 hover:border-cyan-500/50 text-slate-300 hover:text-cyan-400 font-semibold px-7 py-3 rounded-full transition-all duration-300 hover:bg-cyan-500/5" aria-label="Learn more about Sameer Shah">
+                        <i data-lucide="user" class="w-4 h-4" aria-hidden="true"></i>
                         Identify Authority
                     </a>
                 </div>
@@ -908,7 +931,7 @@
                         <div class="glass rounded-2xl p-6 sm:p-8 neon-border card-hover">
                             <div class="flex items-center gap-3 mb-6">
                                 <div class="w-14 h-14 rounded-xl glass p-1 flex items-center justify-center flex-shrink-0 border border-cyan-500/20 shadow-lg shadow-cyan-500/10 overflow-hidden">
-                                    <img src="logo.png" alt="sameershahdev Logo" class="w-full h-full object-contain">
+                                    <img src="logo.png" alt="sameershahdev Logo" class="w-full h-full object-contain" loading="lazy" width="56" height="56">
                                 </div>
                                 <div>
                                     <h3 class="text-white font-bold text-xl">Sameer Shah</h3>
@@ -1191,7 +1214,7 @@
                     <div class="space-y-5">
                         <div class="glass rounded-2xl border border-green-500/25 p-6 sm:p-7 card-hover group">
                             <div class="flex items-start gap-4 mb-5">
-                                <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                                <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true">
                                     <i data-lucide="message-square" class="w-6 h-6 text-green-400"></i>
                                 </div>
                                 <div>
@@ -1200,8 +1223,8 @@
                                     <p class="text-slate-400 text-xs mt-1">Fastest response — usually within 30 mins</p>
                                 </div>
                             </div>
-                            <a href="https://wa.me/917321086174?text=Hello%20Sameer,%20I%20came%20across%20your%20portfolio%20at%20%40sameershahdev%20and%20I%27m%20impressed%20with%20your%20expertise.%20I%20would%20like%20to%20discuss%20a%20project%20requirement%20and%20potential%20service%20engagement." target="_blank" rel="noopener noreferrer" class="btn-glow w-full flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-3 rounded-xl shadow-lg transition-all duration-300">
-                                <i data-lucide="send" class="w-4 h-4"></i> Chat on WhatsApp
+                            <a href="https://wa.me/917321086174?text=Hello%20Sameer,%20I%20came%20across%20your%20portfolio%20at%20%40sameershahdev%20and%20I%27m%20impressed%20with%20your%20expertise.%20I%20would%20like%20to%20discuss%20a%20project%20requirement%20and%20potential%20service%20engagement." target="_blank" rel="noopener noreferrer" class="btn-glow w-full flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-3 rounded-xl shadow-lg transition-all duration-300" aria-label="Chat with Sameer Shah on WhatsApp">
+                                <i data-lucide="send" class="w-4 h-4" aria-hidden="true"></i> Chat on WhatsApp
                             </a>
                         </div>
                         <div class="glass rounded-2xl border border-cyan-500/25 p-6 sm:p-7 card-hover group">
@@ -1216,11 +1239,11 @@
                                 </div>
                             </div>
                             <div class="flex gap-3">
-                                <a href="mailto:sahanapraveen2006@gmail.com?subject=Project%20Hire%20%26%20Service%20Order&body=Hello%20Sameer,%0AI%20came%20across%20your%20portfolio%20at%20%40sameershahdev%20and%20I%27m%20impressed%20with%20your%20expertise.%0AI%20would%20like%20to%20discuss%20a%20project%20requirement%20and%20potential%20service%20engagement." class="btn-glow flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 rounded-xl shadow-lg transition-all duration-300">
-                                    <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg> Email
+                                <a href="mailto:sahanapraveen2006@gmail.com?subject=Project%20Hire%20%26%20Service%20Order&body=Hello%20Sameer,%0AI%20came%20across%20your%20portfolio%20at%20%40sameershahdev%20and%20I%27m%20impressed%20with%20your%20expertise.%0AI%20would%20like%20to%20discuss%20a%20project%20requirement%20and%20potential%20service%20engagement." class="btn-glow flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 rounded-xl shadow-lg transition-all duration-300" aria-label="Send email to Sameer Shah">
+                                    <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg> Email
                                 </a>
-                                <a href="https://github.com/sameershahdev" target="_blank" class="glass w-14 flex items-center justify-center rounded-xl hover:bg-white/5 transition-colors">
-                                    <svg viewBox="0 0 24 24" class="w-5 h-5 fill-white"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                <a href="https://github.com/sameershahdev" target="_blank" class="glass w-14 flex items-center justify-center rounded-xl hover:bg-white/5 transition-colors" aria-label="Visit Sameer Shah's GitHub profile">
+                                    <svg viewBox="0 0 24 24" class="w-5 h-5 fill-white" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                                 </a>
                             </div>
                         </div>
@@ -1228,32 +1251,32 @@
                         <!-- Social Grid with Real Brand Logos -->
                         <div class="grid grid-cols-5 gap-3">
                             <!-- X/Twitter -->
-                            <a href="https://x.com/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon h-14 flex items-center justify-center rounded-xl bg-[#1DA1F2] hover:bg-[#1a91da] transition-all group shadow-lg hover:shadow-xl" title="Follow on X (Twitter)">
-                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="white" aria-label="X">
+                            <a href="https://x.com/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon h-14 flex items-center justify-center rounded-xl bg-[#1DA1F2] hover:bg-[#1a91da] transition-all group shadow-lg hover:shadow-xl" aria-label="Follow Sameer Shah on X (Twitter)">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="white" aria-hidden="true">
                                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                                 </svg>
                             </a>
                             <!-- Instagram -->
-                            <a href="https://instagram.com/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon h-14 flex items-center justify-center rounded-xl bg-gradient-to-r from-[#F58529] via-[#DD2A7B] to-[#8134AF] hover:from-[#e67e22] hover:via-[#c92b6e] hover:to-[#6b2c8a] transition-all group shadow-lg hover:shadow-xl" title="Follow on Instagram">
-                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="white" aria-label="Instagram">
+                            <a href="https://instagram.com/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon h-14 flex items-center justify-center rounded-xl bg-gradient-to-r from-[#F58529] via-[#DD2A7B] to-[#8134AF] hover:from-[#e67e22] hover:via-[#c92b6e] hover:to-[#6b2c8a] transition-all group shadow-lg hover:shadow-xl" aria-label="Follow Sameer Shah on Instagram">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="white" aria-hidden="true">
                                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                                 </svg>
                             </a>
                             <!-- Facebook -->
-                            <a href="https://facebook.com/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon h-14 flex items-center justify-center rounded-xl bg-[#1877F2] hover:bg-[#166fe5] transition-all group shadow-lg hover:shadow-xl" title="Follow on Facebook">
-                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="white" aria-label="Facebook">
+                            <a href="https://facebook.com/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon h-14 flex items-center justify-center rounded-xl bg-[#1877F2] hover:bg-[#166fe5] transition-all group shadow-lg hover:shadow-xl" aria-label="Follow Sameer Shah on Facebook">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="white" aria-hidden="true">
                                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                                 </svg>
                             </a>
                             <!-- Telegram -->
-                            <a href="https://t.me/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon h-14 flex items-center justify-center rounded-xl bg-[#0088cc] hover:bg-[#0077b3] transition-all group shadow-lg hover:shadow-xl" title="Chat on Telegram">
-                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="white" aria-label="Telegram">
+                            <a href="https://t.me/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon h-14 flex items-center justify-center rounded-xl bg-[#0088cc] hover:bg-[#0077b3] transition-all group shadow-lg hover:shadow-xl" aria-label="Chat with Sameer Shah on Telegram">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="white" aria-hidden="true">
                                     <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
                                 </svg>
                             </a>
                             <!-- LinkedIn -->
-                            <a href="https://linkedin.com/in/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon h-14 flex items-center justify-center rounded-xl bg-[#0A66C2] hover:bg-[#0958a0] transition-all group shadow-lg hover:shadow-xl" title="Connect on LinkedIn">
-                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="white" aria-label="LinkedIn">
+                            <a href="https://linkedin.com/in/sameershahdev" target="_blank" rel="noopener noreferrer" class="social-icon h-14 flex items-center justify-center rounded-xl bg-[#0A66C2] hover:bg-[#0958a0] transition-all group shadow-lg hover:shadow-xl" aria-label="Connect with Sameer Shah on LinkedIn">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="white" aria-hidden="true">
                                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                                 </svg>
                             </a>
@@ -1356,7 +1379,7 @@
                 <div>
                     <div class="flex items-center gap-4 mb-5">
                         <div class="w-12 h-12 overflow-hidden rounded-lg">
-                            <img src="logo.png" alt="sameershahdev Logo" class="w-full h-full object-contain filter brightness-95">
+                            <img src="logo.png" alt="sameershahdev Logo" class="w-full h-full object-contain filter brightness-95" loading="lazy" width="48" height="48">
                         </div>
                         <span class="font-bold text-sm tracking-widest text-slate-200">sameershahdev<span class="text-cyan-400">.</span></span>
                     </div>
@@ -1389,9 +1412,13 @@
         </div>
     </footer>
 
-    <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
+    <script defer>
+        // Defer Lucide icon initialization until after page load
+        window.addEventListener('load', () => {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
 
         // Navbar Scroll Effect
         const navbar = document.getElementById('navbar');
@@ -1440,99 +1467,95 @@
             lucide.createIcons();
         });
 
-        // Typewriter Effect
-        const roles = ['Licensed Ethical Hacker India', 'Serverless Developer Ramgarhwa', 'Full-Stack Developer v26', 'Cloud Automation Expert', 'Best Programmer in Amodei'];
-        let roleIdx = 0;
-        let charIdx = 0;
-        let isDeleting = false;
+        // Optimize typewriter effect - run only when visible
         const typewriterEl = document.getElementById('typewriter');
+        if (typewriterEl) {
+            const roles = ['Licensed Ethical Hacker India', 'Serverless Developer Ramgarhwa', 'Full-Stack Developer v26', 'Cloud Automation Expert', 'Best Programmer in Amodei'];
+            let roleIdx = 0;
+            let charIdx = 0;
+            let isDeleting = false;
 
-        function type() {
-            const currentRole = roles[roleIdx];
-            if (isDeleting) {
-                typewriterEl.textContent = currentRole.substring(0, charIdx - 1);
-                charIdx--;
-            } else {
-                typewriterEl.textContent = currentRole.substring(0, charIdx + 1);
-                charIdx++;
+            function type() {
+                const currentRole = roles[roleIdx];
+                if (isDeleting) {
+                    typewriterEl.textContent = currentRole.substring(0, charIdx - 1);
+                    charIdx--;
+                } else {
+                    typewriterEl.textContent = currentRole.substring(0, charIdx + 1);
+                    charIdx++;
+                }
+
+                let typeSpeed = isDeleting ? 30 : 60; // Slightly faster
+                if (!isDeleting && charIdx === currentRole.length) {
+                    typeSpeed = 1500; // Reduced pause
+                    isDeleting = true;
+                } else if (isDeleting && charIdx === 0) {
+                    isDeleting = false;
+                    roleIdx = (roleIdx + 1) % roles.length;
+                    typeSpeed = 300;
+                }
+
+                setTimeout(type, typeSpeed);
             }
-
-            let typeSpeed = isDeleting ? 40 : 80;
-            if (!isDeleting && charIdx === currentRole.length) {
-                typeSpeed = 1800; // Pause at end
-                isDeleting = true;
-            } else if (isDeleting && charIdx === 0) {
-                isDeleting = false;
-                roleIdx = (roleIdx + 1) % roles.length;
-                typeSpeed = 500;
-            }
-
-            setTimeout(type, typeSpeed);
+            setTimeout(type, 800); // Start sooner
         }
-        setTimeout(type, 1000);
 
-        // Hero Particles
+        // Hero Particles - Simplified for performance
         const canvas = document.getElementById('hero-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        const colors = ['#06b6d4', '#a855f7', '#3b82f6', '#10b981'];
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            const colors = ['#06b6d4', '#a855f7', '#3b82f6', '#10b981'];
 
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.size = Math.random() * 2 + 0.5;
-                this.opacity = Math.random() * 0.6 + 0.1;
-                this.color = colors[Math.floor(Math.random() * colors.length)];
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = Math.min(window.innerHeight, 1000); // Limit height for performance
             }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color + Math.floor(this.opacity * 255).toString(16).padStart(2, '0');
-                ctx.fill();
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-        }
+            window.addEventListener('resize', resize);
+            resize();
 
-        for (let i = 0; i < 80; i++) particles.push(new Particle());
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.2; // Reduced speed
+                    this.vy = (Math.random() - 0.5) * 0.2;
+                    this.size = Math.random() * 1.5 + 0.3;
+                    this.opacity = Math.random() * 0.4 + 0.05;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color + Math.floor(this.opacity * 255).toString(16).padStart(2, '0');
+                    ctx.fill();
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+            }
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-                
-                particles.forEach(p2 => {
-                    const dx = p.x - p2.x;
-                    const dy = p.y - p2.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(6,182,212,${0.1 * (1 - dist / 120)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                });
-            });
-            requestAnimationFrame(animate);
+            // Reduce particle count for better performance
+            for (let i = 0; i < 40; i++) particles.push(new Particle());
+
+            let frameCount = 0;
+            function animate() {
+                frameCount++;
+                // Only update every 2 frames for performance
+                if (frameCount % 2 === 0) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    particles.forEach(p => {
+                        p.update();
+                        p.draw();
+                    });
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
         }
-        animate();
 
         // Skill Bars Rendering with Professional Animation
         const skillItems = document.querySelectorAll('.skill-item');
