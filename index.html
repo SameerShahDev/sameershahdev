@@ -1802,8 +1802,21 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
+    <!-- Suppress Tailwind CDN warning before it loads -->
+    <script>
+        (function() {
+            const originalWarn = console.warn;
+            console.warn = function(...args) {
+                const message = args.join(' ');
+                if (message.includes('cdn.tailwindcss.com') && message.includes('production')) {
+                    return; // Suppress the warning
+                }
+                return originalWarn.apply(console, args);
+            };
+        })();
+    </script>
     <!-- Tailwind CSS CDN -->
-    <script async src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script defer src="https://unpkg.com/lucide@latest"></script>
     <script>
