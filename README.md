@@ -1,8 +1,8 @@
-<a href="https://github.com/sameershahdev"><img src="https://readme-typing-svg.herokuapp.com?font=Russo+One&size=30&duration=4000&pause=1000&color=F7F7F7&width=435&lines=Hey%2C+my+self+Hamza+;From+Uttar+Pradesh%2C+India;Bot/Web+Dev!;Telegram%3A+%40PythonBotz" alt="https://t.me/PythonBotz" /></a>
+<a href="https://github.com/sameershahdev"><img src="https://readme-typing-svg.herokuapp.com?font=Russo+One&size=30&duration=4000&pause=1000&color=F7F7F7&width=435&lines=Hey%2C+my+self+Hamza+;From+Uttar+Pradesh%2C+India;Bot/Web+Dev!;Telegram%3A+%40PythonBotz" alt="https://t.me/sameershahdev" /></a>
 
 <p align="center">
     <b>ᴘʀᴏғɪʟᴇ ᴠɪsɪᴛᴏʀs</b><br>
-<img align="middle" alt="count" src="https://count.getloli.com/get/@:otterai?theme=rule34">
+<img align="middle" alt="count" src="https://count.getloli.com/get/@:sameershahdev?theme=rule34">
     
 > [!CAUTION]
 > _```Life is like an anime—full of plot twists, power-ups, and late-night debugging!```_
